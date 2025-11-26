@@ -12,6 +12,8 @@ import KPIDashboard from "./pages/KPIDashboard";
 import LifecycleSimulation from "./pages/LifecycleSimulation";
 import ActivityLogs from "./pages/ActivityLogs";
 import BackgroundWorker from "./pages/BackgroundWorker";
+import ProductsByStore from "./pages/ProductsByStore";
+import WinnerTracking from "./pages/WinnerTracking";
 import AppLayout from "./components/AppLayout";
 import NotFound from "./pages/NotFound";
 
@@ -29,6 +31,8 @@ const App = () => (
           <Route path="/dashboard" element={<AppLayout><Dashboard /></AppLayout>} />
           <Route path="/upload" element={<AppLayout><UploadProduct /></AppLayout>} />
           <Route path="/review" element={<AppLayout><ReviewApprove /></AppLayout>} />
+          <Route path="/products-by-store" element={<AppLayout><ProductsByStore /></AppLayout>} />
+          <Route path="/winner-tracking" element={<AppLayout><WinnerTracking /></AppLayout>} />
           <Route path="/kpi-rules" element={<AppLayout><KPIRules /></AppLayout>} />
           <Route path="/kpi-dashboard" element={<AppLayout><KPIDashboard /></AppLayout>} />
           <Route path="/simulation" element={<AppLayout><LifecycleSimulation /></AppLayout>} />

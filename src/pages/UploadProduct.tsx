@@ -59,6 +59,11 @@ const UploadProduct = () => {
           </div>
 
           <div className="space-y-2">
+            <Label htmlFor="title">Product Title</Label>
+            <Input id="title" placeholder="Enter product title" />
+          </div>
+
+          <div className="space-y-2">
             <Label htmlFor="flowType">Flow Type</Label>
             <Select value={flowType} onValueChange={setFlowType}>
               <SelectTrigger id="flowType">
@@ -167,6 +172,14 @@ const UploadProduct = () => {
                   <Label>SKU</Label>
                   <Input value={`${flowType.toUpperCase()}-${Math.random().toString(36).substring(7).toUpperCase()}`} readOnly />
                 </div>
+              </div>
+
+              <div className="space-y-2">
+                <Label>Vendor Details</Label>
+                <Input
+                  value={flowType === "fashion" ? "Premium Cotton Co." : "Sterling Silver Crafts Ltd."}
+                  readOnly
+                />
               </div>
 
               <div className="space-y-2">

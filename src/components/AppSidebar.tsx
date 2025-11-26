@@ -9,7 +9,9 @@ import {
   PlayCircle,
   Activity,
   Cog,
-  Package
+  Package,
+  Store,
+  Trophy
 } from "lucide-react";
 
 import {
@@ -29,6 +31,8 @@ const menuItems = [
   { title: "Dashboard", url: "/dashboard", icon: LayoutDashboard },
   { title: "Upload Product", url: "/upload", icon: Upload },
   { title: "Review & Approve", url: "/review", icon: ClipboardCheck },
+  { title: "Products by Store", url: "/products-by-store", icon: Store },
+  { title: "Winner Tracking", url: "/winner-tracking", icon: Trophy },
   { title: "KPI Rules", url: "/kpi-rules", icon: Settings },
   { title: "KPI Dashboard", url: "/kpi-dashboard", icon: BarChart3 },
   { title: "Lifecycle Simulation", url: "/simulation", icon: PlayCircle },
