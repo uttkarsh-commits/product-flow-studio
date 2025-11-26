@@ -12,6 +12,8 @@ const ReviewApprove = () => {
   const [selectedStores, setSelectedStores] = useState<{ [key: string]: string[] }>({});
   const [publishDialogOpen, setPublishDialogOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState<string>("");
+  const [selectedLanguages, setSelectedLanguages] = useState<string[]>([]);
+  const [selectedPublishStores, setSelectedPublishStores] = useState<string[]>([]);
 
   const handleStoreToggle = (productId: string, store: string) => {
     setSelectedStores(prev => {
@@ -25,12 +27,33 @@ const ReviewApprove = () => {
 
   const handlePublish = (productId: string) => {
     setSelectedProduct(productId);
+    setSelectedLanguages([]);
+    setSelectedPublishStores([]);
     setPublishDialogOpen(true);
   };
 
+  const handleLanguageToggle = (language: string) => {
+    setSelectedLanguages(prev => 
+      prev.includes(language) 
+        ? prev.filter(l => l !== language)
+        : [...prev, language]
+    );
+  };
+
+  const handlePublishStoreToggle = (store: string) => {
+    setSelectedPublishStores(prev => 
+      prev.includes(store) 
+        ? prev.filter(s => s !== store)
+        : [...prev, store]
+    );
+  };
+
   const confirmPublish = () => {
-    const stores = selectedStores[selectedProduct] || [];
-    toast.success(`Product published to ${stores.length} store(s): ${stores.join(", ")}`);
+    if (selectedLanguages.length === 0 || selectedPublishStores.length === 0) {
+      toast.error("Please select at least one language and one store");
+      return;
+    }
+    toast.success(`Product published to ${selectedPublishStores.length} store(s) with ${selectedLanguages.length} language(s)`);
     setPublishDialogOpen(false);
   };
 
@@ -158,19 +181,56 @@ const ReviewApprove = () => {
       </div>
 
       <Dialog open={publishDialogOpen} onOpenChange={setPublishDialogOpen}>
-        <DialogContent>
+        <DialogContent className="max-w-md">
           <DialogHeader>
-            <DialogTitle>Confirm Publication</DialogTitle>
+            <DialogTitle>Publish to Shopify</DialogTitle>
             <DialogDescription>
-              This will publish the product to the selected stores. This is a mock action and won't actually publish anything.
+              Select languages and stores for publishing this product
             </DialogDescription>
           </DialogHeader>
-          <div className="space-y-4">
-            <p className="text-sm">
-              Selected stores: <strong>{selectedStores[selectedProduct]?.join(", ")}</strong>
-            </p>
+          <div className="space-y-6">
+            <div>
+              <p className="text-sm font-medium mb-3">Select Languages</p>
+              <div className="grid grid-cols-2 gap-2">
+                {["English", "German", "Spanish", "Polish"].map(language => (
+                  <div key={language} className="flex items-center space-x-2">
+                    <Checkbox
+                      id={`lang-${language}`}
+                      checked={selectedLanguages.includes(language)}
+                      onCheckedChange={() => handleLanguageToggle(language)}
+                    />
+                    <label htmlFor={`lang-${language}`} className="text-sm cursor-pointer">
+                      {language}
+                    </label>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div>
+              <p className="text-sm font-medium mb-3">Select Stores</p>
+              <div className="grid grid-cols-3 gap-2">
+                {["DE", "ES", "PL"].map(store => (
+                  <div key={store} className="flex items-center space-x-2">
+                    <Checkbox
+                      id={`publish-${store}`}
+                      checked={selectedPublishStores.includes(store)}
+                      onCheckedChange={() => handlePublishStoreToggle(store)}
+                    />
+                    <label htmlFor={`publish-${store}`} className="text-sm font-medium cursor-pointer">
+                      {store}
+                    </label>
+                  </div>
+                ))}
+              </div>
+            </div>
+
             <div className="flex gap-2">
-              <Button onClick={confirmPublish} className="flex-1">
+              <Button 
+                onClick={confirmPublish} 
+                className="flex-1"
+                disabled={selectedLanguages.length === 0 || selectedPublishStores.length === 0}
+              >
                 Confirm Publish
               </Button>
               <Button variant="outline" onClick={() => setPublishDialogOpen(false)} className="flex-1">
